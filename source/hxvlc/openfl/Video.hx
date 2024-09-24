@@ -1029,7 +1029,6 @@ class Video extends Bitmap
 
 		if (texturePlanesBuffer != null)
 		{
-			texturePlanesBuffer.splice(0, texturePlanesBuffer.length);
 			texturePlanesBuffer = null;
 		}
 
