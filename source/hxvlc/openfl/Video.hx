@@ -36,6 +36,10 @@ using StringTools;
 /**
  * This class is a video player that uses LibVLC for seamless integration with OpenFL display objects.
  */
+#if !openfl_debug
+@:fileXml('tags="haxe,release"')
+@:noDebug
+#end
 @:access(openfl.display.BitmapData)
 @:cppNamespaceCode('static int media_open(void *opaque, void **datap, uint64_t *sizep)
 {
@@ -1567,8 +1571,8 @@ class Video extends Bitmap
 	{
 		cpp.Stdlib.nativeMemcpy(cast chroma, cast cpp.CastCharStar.fromString("RV32"), 4);
 
-		final originalWidth:cpp.UInt8 = width[0];
-		final originalHeight:cpp.UInt8 = height[0];
+		final originalWidth:cpp.UInt32 = width[0];
+		final originalHeight:cpp.UInt32 = height[0];
 
 		textureMutex.acquire();
 
