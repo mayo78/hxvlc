@@ -443,7 +443,7 @@ extern class LibVLC
 	 * @return The current playback time in milliseconds.
 	 */
 	@:native('libvlc_media_player_get_time')
-	static function media_player_get_time(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>):LibVLC_Time_T;
+	static function media_player_get_time(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>):cpp.Int64;
 
 	/**
 	 * Sets the current playback time.
@@ -453,7 +453,7 @@ extern class LibVLC
 	 * @return 0 on success, -1 on failure.
 	 */
 	@:native('libvlc_media_player_set_time')
-	static function media_player_set_time(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>, i_time:LibVLC_Time_T):Int;
+	static function media_player_set_time(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>, i_time:cpp.Int64):Int;
 
 	/**
 	 * Gets the current playback position.
@@ -542,7 +542,7 @@ extern class LibVLC
 	 * @return The media length in milliseconds.
 	 */
 	@:native('libvlc_media_player_get_length')
-	static function media_player_get_length(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>):LibVLC_Time_T;
+	static function media_player_get_length(p_mi:cpp.RawPointer<LibVLC_Media_Player_T>):cpp.Int64;
 
 	/**
 	 * Creates a new media player.

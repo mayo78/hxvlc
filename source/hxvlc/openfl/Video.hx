@@ -305,12 +305,12 @@ class Video extends Bitmap
 	/**
 	 * Length of the media in microseconds.
 	 */
-	public var length(get, never):Int64;
+	public var length(get, never):Int;
 
 	/**
 	 * Current time position in the media in microseconds.
 	 */
-	public var time(get, set):Int64;
+	public var time(get, set):Int;
 
 	/**
 	 * Current playback position as a percentage (0.0 to 1.0).
@@ -1058,7 +1058,6 @@ class Video extends Bitmap
 
 		if (alSamplesBuffer != null)
 		{
-			alSamplesBuffer.splice(0, alSamplesBuffer.length);
 			alSamplesBuffer = null;
 		}
 
@@ -1261,19 +1260,19 @@ class Video extends Bitmap
 	}
 
 	@:noCompletion
-	private function get_length():Int64
+	private function get_length():Int
 	{
 		return mediaPlayer != null ? LibVLC.media_player_get_length(mediaPlayer) : -1;
 	}
 
 	@:noCompletion
-	private function get_time():Int64
+	private function get_time():Int
 	{
 		return mediaPlayer != null ? LibVLC.media_player_get_time(mediaPlayer) : -1;
 	}
 
 	@:noCompletion
-	private function set_time(value:Int64):Int64
+	private function set_time(value:Int):Int
 	{
 		if (mediaPlayer != null)
 			LibVLC.media_player_set_time(mediaPlayer, #if (haxe <= "4.2.5") cast #end value);
