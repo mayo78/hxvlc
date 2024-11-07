@@ -309,12 +309,12 @@ class Video extends Bitmap
 	/**
 	 * Length of the media in microseconds.
 	 */
-	public var length(get, never):Int;
+	public var length(get, never):Int64;
 
 	/**
 	 * Current time position in the media in microseconds.
 	 */
-	public var time(get, set):Int;
+	public var time(get, set):Int64;
 
 	/**
 	 * Current playback position as a percentage (0.0 to 1.0).
