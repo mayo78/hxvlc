@@ -1263,19 +1263,19 @@ class Video extends Bitmap
 	}
 
 	@:noCompletion
-	private function get_length():Int
+	private function get_length():Int64
 	{
 		return mediaPlayer != null ? LibVLC.media_player_get_length(mediaPlayer) : -1;
 	}
 
 	@:noCompletion
-	private function get_time():Int
+	private function get_time():Int64
 	{
 		return mediaPlayer != null ? LibVLC.media_player_get_time(mediaPlayer) : -1;
 	}
 
 	@:noCompletion
-	private function set_time(value:Int):Int
+	private function set_time(value:Int):Int64
 	{
 		if (mediaPlayer != null)
 			LibVLC.media_player_set_time(mediaPlayer, #if (haxe <= "4.2.5") cast #end value);
