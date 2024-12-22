@@ -61,6 +61,8 @@ class FlxVideoSprite extends FlxSprite
 	 */
 	public var bitmap(default, null):Video;
 
+	var _awaitingBitmap:Bool;
+
 	/**
 	 * Creates a `FlxVideoSprite` at a specified position.
 	 *
@@ -86,8 +88,7 @@ class FlxVideoSprite extends FlxSprite
 		});
 		bitmap.onFormatSetup.add(function():Void
 		{
-			if (bitmap != null && bitmap.bitmapData != null)
-				loadGraphic(FlxGraphic.fromBitmapData(bitmap.bitmapData, false, null, false));
+			_awaitingBitmap = true;
 		});
 		bitmap.visible = false;
 		FlxG.game.addChild(bitmap);
@@ -286,8 +287,17 @@ class FlxVideoSprite extends FlxSprite
 			bitmap.volume = Math.floor((FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * Define.getFloat('HXVLC_FLIXEL_VOLUME_MULTIPLIER', 100));
 		#end
 
+		if (_awaitingBitmap && bitmap != null && bitmap.bitmapData != null)
+		{
+			_awaitingBitmap = false;
+			loadGraphic(FlxGraphic.fromBitmapData(bitmap.bitmapData, false, null, false));
+			onFormatSetup();
+		}
+
 		super.update(elapsed);
 	}
+
+	function onFormatSetup():Void {}
 
 	@:noCompletion
 	private override function set_antialiasing(value:Bool):Bool
