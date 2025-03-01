@@ -61,6 +61,8 @@ class FlxVideoSprite extends FlxSprite
 	 */
 	public var bitmap(default, null):Video;
 
+	public var asyncLoading:Bool = false;
+
 	var _awaitingBitmap:Bool;
 
 	/**
@@ -89,6 +91,13 @@ class FlxVideoSprite extends FlxSprite
 		bitmap.onFormatSetup.add(function():Void
 		{
 			_awaitingBitmap = true;
+			if (!asyncLoading) 
+			{
+				do {
+					trace('awaiting bitmap attempt');
+					loadBitmap();
+				} while (_awaitingBitmap);
+			}
 		});
 		bitmap.visible = false;
 		FlxG.game.addChild(bitmap);
@@ -280,6 +289,17 @@ class FlxVideoSprite extends FlxSprite
 			bitmap.resume();
 	}
 
+	function loadBitmap():Bool 
+	{
+		if (bitmap?.bitmapData == null)
+			return false;
+		trace('finsihed awaiting the bitmap');
+		_awaitingBitmap = false;
+		loadGraphic(FlxGraphic.fromBitmapData(bitmap.bitmapData, false, null, false));
+		onFormatSetup();
+		return true;
+	}
+
 	public override function update(elapsed:Float):Void
 	{
 		#if FLX_SOUND_SYSTEM
@@ -287,11 +307,10 @@ class FlxVideoSprite extends FlxSprite
 			bitmap.volume = Math.floor((FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * Define.getFloat('HXVLC_FLIXEL_VOLUME_MULTIPLIER', 100));
 		#end
 
-		if (_awaitingBitmap && bitmap != null && bitmap.bitmapData != null)
+		if (_awaitingBitmap)
 		{
-			_awaitingBitmap = false;
-			loadGraphic(FlxGraphic.fromBitmapData(bitmap.bitmapData, false, null, false));
-			onFormatSetup();
+			if (asyncLoading)
+				loadBitmap();
 		}
 
 		super.update(elapsed);
